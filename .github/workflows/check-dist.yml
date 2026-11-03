@@ -29,11 +29,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js (v16 Environment)
+      - name: Setup Node.js (v24 Environment)
         id: setup-node
         uses: actions/setup-node@v4
         with:
-          node-version: '16'
+          node-version: '24'
           cache: npm
 
       - name: Install Dependencies
@@ -42,15 +42,13 @@ jobs:
 
       - name: Auto-Format Code Styles to Match Compiler Baseline
         id: auto-format
-        run:
-          npm run format:write || echo "Forcing Prettier configuration
-          compliance..."
+        run: npm run format:write || echo "Forcing Prettier configuration compliance..."
 
       - name: Re-build dist/ Directory Fresh
         id: build
         run: npm run bundle
 
-      # Compares directories strictly based on code logic.
+      # Compares directories strictly based on code logic. 
       # Passing the -w flag ignores all whitespaces, line breaks, and formatting mismatches.
       - name: Compare Directories
         id: diff
@@ -59,7 +57,7 @@ jobs:
             echo "Expected dist/ directory does not exist."
             exit 1
           fi
-
+          
           # Added -w flag to look past formatting layout differences
           if [ "$(git diff -w --ignore-space-at-eol --text dist/ | wc -l)" -gt "0" ]; then
             echo "Detected uncommitted core logic changes after build. See diff below:"
