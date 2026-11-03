@@ -33,7 +33,7 @@ jobs:
         id: setup-node
         uses: actions/setup-node@v4
         with:
-          node-version: "24"
+          node-version: '24'
           cache: npm
 
       - name: Install Dependencies
@@ -42,7 +42,9 @@ jobs:
 
       - name: Auto-Format Code Styles to Match Compiler Baseline
         id: auto-format
-        run: npm run format:write || echo "Forcing Prettier configuration compliance..."
+        run:
+          npm run format:write || echo "Forcing Prettier configuration
+          compliance..."
 
       - name: Re-build dist/ Directory Fresh
         id: build
